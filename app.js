@@ -7,6 +7,12 @@ var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
+
+var User = require('./models/user');
+User.sync().then(() => {
+  console.log("create User model");
+});
 
 var app = express();
 
@@ -23,6 +29,8 @@ app.use(helmet());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

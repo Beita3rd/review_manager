@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 ログイン
+  form(method="post" action="/login")
+    p メールアドレス
+    input(type="text" name="email")
+    p パスワード
+    input(type="password" name="password")
+    p 
+    input(type="submit" value="ログイン")
+    p 
+    a(href="/") トップ

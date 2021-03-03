@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 新規登録
+  form(method="post" action="/users/signup")
+    p ユーザー名
+    input(type="text" name="name")
+    p メールアドレス
+    input(type="text" name="email")
+    p パスワード
+    input(type="password" name="password")
+    p 
+    input(type="submit" value="新規登録")
+    p 
+    a(href="/") トップ
