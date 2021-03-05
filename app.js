@@ -9,6 +9,7 @@ var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
 
 var User = require('./models/user');
 User.sync().then(() => {
@@ -32,6 +33,7 @@ app.use(session({ secret: '2a149d2eef498259', resave: false, saveUninitialized: 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 
 // catch 404 and forward to error handler
