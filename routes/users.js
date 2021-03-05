@@ -3,12 +3,13 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const ensurer = require('./authentication-ensurer');
 
-router.get('/signup', (req, res) => {
+router.get('/signup', ensurer.ensureForLogin, (req, res) => {
   res.render('signup');
 });
 
-router.post('/signup',
+router.post('/signup', ensurer.ensureForLogin,
   //入力のチェック
   (req, res, next) => {
     const name = req.body.name;
@@ -57,6 +58,8 @@ router.post('/signup',
         email: email,
         password: hash
       }).then((user) => {
+        req.session.userId = user.userId;
+        req.session.username = user.userName;
         console.log(user.userName, 'を登録しました');
         res.redirect('/');
       });

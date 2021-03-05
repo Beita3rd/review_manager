@@ -2,14 +2,15 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const ensurer = require('./authentication-ensurer');
 const bcrypt = require('bcrypt');
 
-router.get('/', (req, res, next) => {
+router.get('/', ensurer.ensureForLogin, (req, res, next) => {
   res.render('login');
 });
 
 
-router.post('/', (req, res, next) => {
+router.post('/', ensurer.ensureForLogin, (req, res, next) => {
   //emailのチェック
   const email = req.body.email;
   User.findOne({where: {email: email}}).then((user) => {
@@ -23,6 +24,9 @@ router.post('/', (req, res, next) => {
       bcrypt.compare(plain, hash, (error, isEqual) => {
         if(isEqual){
           console.log('ログイン');
+          //セッションに情報を保存
+          req.session.userId = user.userId;
+          req.session.username = user.userName;
           res.redirect('/');
         } else{
           console.log('パスワードが異なる');
