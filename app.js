@@ -11,9 +11,12 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 
+
 var User = require('./models/user');
+var StudyContent = require('./models/study-content');
 User.sync().then(() => {
-  console.log("create User model");
+  StudyContent.belongsTo(User, {foreingKey: 'userId'});
+  StudyContent.sync();
 });
 
 var app = express();
