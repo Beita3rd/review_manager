@@ -7,6 +7,7 @@ function ensure(req, res, next) {
   return next();
 }
 
+// ログイン、新規登録用
 function ensureForLogin(req, res, next) {
   if (req.session.userId === undefined) {
     return next();

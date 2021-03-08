@@ -3,7 +3,7 @@ const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const StudyContent = loader.database.define(
-  'studyContents',
+  'study_contents',
   {
     studyContentsId: {
       type: Sequelize.INTEGER,
@@ -19,7 +19,7 @@ const StudyContent = loader.database.define(
       type: Sequelize.DATE,
       allowNull: false
     },
-    updatedAtAt: {
+    updatedAt: {
       type: Sequelize.DATE,
       allowNull: false
     },
@@ -31,7 +31,11 @@ const StudyContent = loader.database.define(
       type: Sequelize.INTEGER,
       allowNull: false
     }
+  },
+  {
+    freezeTableName: true,
+    timestamps: false
   }
-)
+);
 
 module.exports = StudyContent;

@@ -10,8 +10,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
+var studyRouter = require('./routes/study');
 
-
+// モデルの読み込み
 var User = require('./models/user');
 var StudyContent = require('./models/study-content');
 User.sync().then(() => {
@@ -37,6 +38,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/study', studyRouter);
 
 
 // catch 404 and forward to error handler
