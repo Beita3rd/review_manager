@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var studyRouter = require('./routes/study');
+var reviewRouter = require('./routes/review');
 
 // モデルの読み込み
 var User = require('./models/user');
@@ -39,6 +40,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/study', studyRouter);
+app.use('/review', reviewRouter);
 
 
 // catch 404 and forward to error handler

@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  - var hasContents = reviewContent.length > 0
+  if hasContents
+    h3 復習内容の一覧
+      each content in reviewContent
+        p #{content.studyContents}： #{content.reviewDate}
+
+    

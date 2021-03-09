@@ -48,7 +48,7 @@ router.post('/new', ensurer.ensure,
     StudyContent.create({
       studyContents: studyContents,
       studyDate: studyDate,
-      updatedAt: studyDate,
+      reviewDate: studyDate,
       reviewTimes: 0,
       userId: req.session.userId
     }).then((contents) => {

@@ -16,11 +16,11 @@ const StudyContent = loader.database.define(
       allowNull: false
     },
     studyDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
       allowNull: false
     },
-    updatedAt: {
-      type: Sequelize.DATE,
+    reviewDate: {
+      type: Sequelize.DATEONLY,
       allowNull: false
     },
     reviewTimes: {
