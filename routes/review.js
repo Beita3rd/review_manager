@@ -17,4 +17,21 @@ router.get('/', ensurer.ensure, (req, res) => {
   });
 });
 
+router.post('/study/:userId/:studyContentsId', ensurer.ensure,
+  //sessionIdとコンテンツのuserIdが同一か確認
+  (req, res, next) => {
+    const userId = req.params.userId;
+    if (userId === req.session.userId){
+      next();
+    } else {
+      res.redirect('/');
+    }
+  },
+  (req, res, next) => {
+    StudyContent.update(
+      {}
+    )
+  }
+);
+
 module.exports = router;
