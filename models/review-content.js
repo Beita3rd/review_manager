@@ -2,32 +2,32 @@
 const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const StudyContent = loader.database.define(
-  'study_contents',
+const ReviewContent = loader.database.define(
+  'review_contents',
   {
-    studyContentsId: {
+    reviewContentsId: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    studyContents: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    studyDate: {
+    reviewDate: {
       type: Sequelize.DATEONLY,
       allowNull: false
     },
-    userId: {
+    reviewTimes: {
       type: Sequelize.INTEGER,
       allowNull: false
-    }
+    },
+    studyContentsId: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
   },
   {
     freezeTableName: true,
     timestamps: false
   }
-);
+)
 
-module.exports = StudyContent;
+module.exports = ReviewContent;

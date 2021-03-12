@@ -1,8 +1,8 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user');
 const StudyContent = require('../models/study-content');
+const ReviewContent = require('../models/review-content');
 const ensurer = require('./authentication-ensurer');
 
 // 一覧表示
@@ -48,12 +48,17 @@ router.post('/new', ensurer.ensure,
     StudyContent.create({
       studyContents: studyContents,
       studyDate: studyDate,
-      reviewDate: studyDate,
-      reviewTimes: 0,
       userId: req.session.userId
-    }).then((contents) => {
-      console.log(contents.studyContents, 'を登録しました');
-      res.redirect('/study');
+    }).then((studyContents) => {
+      let date = new Date(studyDate);
+      date.setDate( date.getDate() + 1 );
+      ReviewContent.create({
+        reviewDate: date,
+        reviewTimes: 1,
+        studyContentsId: studyContents.studyContentsId
+      }).then(() => {
+        res.redirect('/study');
+      })
     });
   }
 );

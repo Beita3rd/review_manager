@@ -3,18 +3,22 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const StudyContent = require('../models/study-content');
+const ReviewContent = require('../models/review-content');
 const ensurer = require('./authentication-ensurer');
 
 router.get('/', ensurer.ensure, (req, res) => {
-  const today = new Date();
-  StudyContent.findAll({
+  StudyContent.findOne({
+    include: [
+      {
+        model: StudyContent,
+      }],
     where: {
-      userId: req.session.userId,
-      reviewDate: today
+      userId: req.session.userId
     }
-  }).then((reviewContent) => {
-      res.render('review-contents', {reviewContent: reviewContent});
-  });
+  }).then((reviewContents) => {
+    consele.log(reviewContents);
+    res.render('review-contents', {reviewContents: reviewContents});
+  })
 });
 
 router.post('/study/:userId/:studyContentsId', ensurer.ensure,
@@ -24,13 +28,13 @@ router.post('/study/:userId/:studyContentsId', ensurer.ensure,
     if (userId === req.session.userId){
       next();
     } else {
-      res.redirect('/');
+      const err = new Error('userIdが一致しません');
+      err.status = 404;
+      next(err);
     }
   },
   (req, res, next) => {
-    StudyContent.update(
-      {}
-    )
+    
   }
 );
 

@@ -5,6 +5,6 @@ block content
   if hasContents
     h3 復習内容の一覧
       each content in reviewContent
-        p #{content.studyContents}： #{content.reviewDate}
+        p #{content.review_contents.studyContents}： #{content.reviewDate}
 
     

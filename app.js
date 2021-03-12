@@ -16,9 +16,13 @@ var reviewRouter = require('./routes/review');
 // モデルの読み込み
 var User = require('./models/user');
 var StudyContent = require('./models/study-content');
+var ReviewContent = require('./models/review-content');
 User.sync().then(() => {
-  StudyContent.belongsTo(User, {foreingKey: 'userId'});
-  StudyContent.sync();
+  StudyContent.belongsTo(User, {foreignKey: 'userId'});
+  StudyContent.sync().then(() => {
+    ReviewContent.belongsTo(StudyContent, {foreignKey: 'studyContentsId'});
+    ReviewContent.sync();
+  });
 });
 
 var app = express();
