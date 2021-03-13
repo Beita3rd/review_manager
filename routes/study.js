@@ -8,8 +8,8 @@ const ensurer = require('./authentication-ensurer');
 // 一覧表示
 router.get('/', ensurer.ensure, (req, res) => {
   StudyContent.findAll({
-    where: {userId: req.session.userId},
-    order: [['studyDate', 'DESC']]}).then((studyContent) => {
+    where: {user_id: req.session.userId},
+    order: [['created_at', 'DESC']]}).then((studyContent) => {
       res.render('study-contents', {studyContent: studyContent});
   });
 });
@@ -46,16 +46,16 @@ router.post('/new', ensurer.ensure,
     const studyDate = req.body.studyDate;
 
     StudyContent.create({
-      studyContents: studyContents,
-      studyDate: studyDate,
-      userId: req.session.userId
+      study_contents: studyContents,
+      created_at: studyDate,
+      user_id: req.session.userId
     }).then((studyContents) => {
       let date = new Date(studyDate);
       date.setDate( date.getDate() + 1 );
       ReviewContent.create({
-        reviewDate: date,
-        reviewTimes: 1,
-        studyContentsId: studyContents.studyContentsId
+        review_date: date,
+        number_of: 1,
+        study_contents_id: studyContents.study_contents_id
       }).then(() => {
         res.redirect('/study');
       })

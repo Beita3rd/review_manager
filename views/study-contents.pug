@@ -5,7 +5,7 @@ block content
   if hasContents
     h3 勉強内容の一覧
     each content in studyContent
-      p #{content.studyContents}： #{content.studyDate}
+      p #{content.study_contents}： #{content.created_at}
 
     a(href="/study/new") 勉強内容の保存
           

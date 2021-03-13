@@ -5,13 +5,13 @@ const Sequelize = loader.Sequelize;
 const User = loader.database.define(
   'users',
   {
-    userId: {
+    user_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       allowNull: false,
       autoIncrement: true
     },
-    userName: {
+    user_name: {
       type: Sequelize.STRING,
       allowNull: false
     },

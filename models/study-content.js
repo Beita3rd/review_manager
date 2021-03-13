@@ -5,21 +5,21 @@ const Sequelize = loader.Sequelize;
 const StudyContent = loader.database.define(
   'study_contents',
   {
-    studyContentsId: {
+    study_contents_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    studyContents: {
+    study_contents: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    studyDate: {
+    created_at: {
       type: Sequelize.DATEONLY,
       allowNull: false
     },
-    userId: {
+    user_id: {
       type: Sequelize.INTEGER,
       allowNull: false
     }

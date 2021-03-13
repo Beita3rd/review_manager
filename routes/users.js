@@ -54,13 +54,13 @@ router.post('/signup', ensurer.ensureForLogin,
     //パスワードをハッシュ化
     bcrypt.hash(password, 10, (error, hash) => {
       User.create({
-        userName: name,
+        user_name: name,
         email: email,
         password: hash
       }).then((user) => {
-        req.session.userId = user.userId;
-        req.session.username = user.userName;
-        console.log(user.userName, 'を登録しました');
+        req.session.userId = user.user_id;
+        req.session.username = user.user_name;
+        console.log(user.user_name, 'を登録しました');
         res.redirect('/');
       });
     });

@@ -5,21 +5,25 @@ const Sequelize = loader.Sequelize;
 const ReviewContent = loader.database.define(
   'review_contents',
   {
-    reviewContentsId: {
+    review_contents_id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    reviewDate: {
+    review_date: {
       type: Sequelize.DATEONLY,
       allowNull: false
     },
-    reviewTimes: {
+    number_of: {
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    studyContentsId: {
+    is_done: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
+    },
+    study_contents_id: {
       type: Sequelize.INTEGER,
       allowNull: false
     },

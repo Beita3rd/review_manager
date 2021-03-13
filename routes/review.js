@@ -1,24 +1,22 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const loader = require('../models/sequelize-loader');
+const sequelize = loader.database;
 const User = require('../models/user');
 const StudyContent = require('../models/study-content');
 const ReviewContent = require('../models/review-content');
 const ensurer = require('./authentication-ensurer');
 
 router.get('/', ensurer.ensure, (req, res) => {
-  StudyContent.findOne({
-    include: [
-      {
-        model: StudyContent,
-      }],
-    where: {
-      userId: req.session.userId
-    }
-  }).then((reviewContents) => {
-    consele.log(reviewContents);
+  const today = new Date();
+  sequelize.query
+  ("SELECT * FROM review_contents JOIN study_contents ON review_contents.study_contents_id = study_contents.study_contents_id WHERE user_id = ? AND review_date = ?",
+  { replacements: [req.session.userId, today], type: sequelize.QueryTypes.SELECT }
+  ).then(reviewContents => {
+    console.log(reviewContents);
     res.render('review-contents', {reviewContents: reviewContents});
-  })
+  });
 });
 
 router.post('/study/:userId/:studyContentsId', ensurer.ensure,
