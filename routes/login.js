@@ -27,7 +27,7 @@ router.post('/', ensurer.ensureForLogin, (req, res, next) => {
           //セッションに情報を保存
           req.session.userId = user.user_id;
           req.session.username = user.user_name;
-          res.redirect('/');
+          res.redirect('/review');
         } else{
           console.log('パスワードが異なる');
           res.redirect('/login');

@@ -61,7 +61,7 @@ router.post('/signup', ensurer.ensureForLogin,
         req.session.userId = user.user_id;
         req.session.username = user.user_name;
         console.log(user.user_name, 'を登録しました');
-        res.redirect('/');
+        res.redirect('/review');
       });
     });
   }

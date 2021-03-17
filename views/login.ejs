@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('head'); %>
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/sign-in/">
+    </style>
+    <link href="/stylesheets/signin.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+    <form class="form-signin" method="post" action="/login">
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <p>メールアドレスを入力して下さい</p>
+      <label for="inputEmail" class="sr-only">Email address</label>
+      <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <p>パスワードを入力して下さい</p>
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+  </body>
+</html>

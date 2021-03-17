@@ -19,7 +19,7 @@ router.get('/', ensurer.ensure, (req, res) => {
   });
 });
 
-router.post('/study/:userId/:studyContentsId', ensurer.ensure,
+router.post('/study/:userId/:studyContentsId/review/:reviewContentsId', ensurer.ensure,
   //sessionIdとコンテンツのuserIdが同一か確認
   (req, res, next) => {
     const userId = req.params.userId;
