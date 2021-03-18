@@ -6,17 +6,17 @@ const ReviewContent = require('../models/review-content');
 const ensurer = require('./authentication-ensurer');
 
 // 一覧表示
-router.get('/', ensurer.ensure, (req, res) => {
-  StudyContent.findAll({
-    where: {user_id: req.session.userId},
-    order: [['created_at', 'DESC']]}).then((studyContent) => {
-      res.render('study-contents', {studyContent: studyContent});
-  });
-});
+// router.get('/', ensurer.ensure, (req, res) => {
+//   StudyContent.findAll({
+//     where: {user_id: req.session.userId},
+//     order: [['created_at', 'DESC']]}).then((studyContent) => {
+//       res.render('study-contents', {studyContent: studyContent});
+//   });
+// });
 
-router.get('/new', ensurer.ensure, (req, res) => {
-  res.render('new-study-contents');
-});
+// router.get('/new', ensurer.ensure, (req, res) => {
+//   res.render('new-study-contents');
+// });
 
 
 // 勉強内容の保存
@@ -57,7 +57,7 @@ router.post('/new', ensurer.ensure,
         number_of: 1,
         study_contents_id: studyContents.study_contents_id
       }).then(() => {
-        res.redirect('/study');
+        res.redirect('/review');
       })
     });
   }

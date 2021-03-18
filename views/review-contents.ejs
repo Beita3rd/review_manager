@@ -6,6 +6,39 @@
 <body>
   <%- include('header'); %>
   
-  <%- include('script'); %>
+  <main class="container">
+    <div class="jumbotron my-3">
+      <h1 class="display-4">復習の一覧</h1>
+      <p class="lead">ここに復習予定の一覧が表示されます。</p>
+      <hr class="my-4">
+      <p>新しく学んだ内容はこちらから登録できます</p>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStudyModal">勉強の登録</button>
+    </div>
+
+
+    <table class="table table-hover">
+      <thead>
+        <th scope="col">復習内容</th>
+        <th scope="col">日付け</th>
+      </thead>
+      <tbody>
+        <tr>
+          <% var hasContents = reviewContents.length > 0 %>
+          <% if (hasContents) { %>
+            <% reviewContents.forEach(content => { %>
+              <td><%= content.study_contents %></td>
+              <td><%= content.review_date %></td>
+            <% }); %>
+          <% }; %>
+        </tr>
+      </tbody>
+      
+
+    </table>
+    
+        
+
+  </main>
+  <%- include('modal'); %>
 </body>
 </html>
