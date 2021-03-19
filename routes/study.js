@@ -50,11 +50,9 @@ router.post('/new', ensurer.ensure,
       created_at: studyDate,
       user_id: req.session.userId
     }).then((studyContents) => {
-      let date = new Date(studyDate);
-      date.setDate( date.getDate() + 1 );
       ReviewContent.create({
-        review_date: date,
-        number_of: 1,
+        review_date: studyDate,
+        number_of: 0,
         study_contents_id: studyContents.study_contents_id
       }).then(() => {
         res.redirect('/review');

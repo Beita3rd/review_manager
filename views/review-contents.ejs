@@ -7,6 +7,7 @@
   <%- include('header'); %>
   
   <main class="container">
+    <!-- ジャンボトロン -->
     <div class="jumbotron my-3">
       <h1 class="display-4">復習の一覧</h1>
       <p class="lead">ここに復習予定の一覧が表示されます。</p>
@@ -15,30 +16,78 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStudyModal">勉強の登録</button>
     </div>
 
-
+    <!-- 復習リスト -->
     <table class="table table-hover">
       <thead>
         <th scope="col">復習内容</th>
-        <th scope="col">日付け</th>
+        <th scope="col">復習回数</th>
+        <th scope="col">復習日</th>
       </thead>
       <tbody>
-        <tr>
-          <% var hasContents = reviewContents.length > 0 %>
-          <% if (hasContents) { %>
-            <% reviewContents.forEach(content => { %>
+        <% var hasContents = reviewContents.length > 0 %>
+        <% if (hasContents) { %>
+          <% reviewContents.forEach(content => { %>
+            <tr>
               <td><%= content.study_contents %></td>
+              <td><%= content.number_of %></td>
               <td><%= content.review_date %></td>
-            <% }); %>
-          <% }; %>
-        </tr>
+              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#doneModal" data-study_contents="<%= content.study_contents %>" data-review_contents_id="<%= content.review_contents_id %>" data-user_id="<%= content.user_id %>">完了</button></td>
+            </tr>
+          <% }); %>
+        <% }; %>
       </tbody>
-      
-
     </table>
     
-        
 
+    <% var today = new Date(); %>
+    <% today.setDate(today.getDate()); var yyyy = today.getFullYear(); var mm = ("0"+(today.getMonth()+1)).slice(-2); var dd = ("0"+today.getDate()).slice(-2); var today = yyyy+'-'+mm+'-'+dd%>
+
+    <!-- 勉強内容登録のモーダル -->
+    <div class="modal fade" id="newStudyModal" tabindex="-1" aria-labelledby="newStudyModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="newStudyModal">勉強内容の登録</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/study/new">
+              <div class="form-group">
+                <label for="studyContents" class="col-form-label">勉強内容:</label>
+                <input type="text" class="form-control" id="studyContents" name="studyContents">
+              </div>
+              <div class="form-group">
+                <label for="studyDate" class="col-form-label">勉強日:</label>
+                <input type="date" class="form-control" id="studyDate" name="studyDate" value="<%= today %>" max="<%= today %>">
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">登録</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 復習完了のモーダル -->
+    <div class="modal fade" id="doneModal" tabindex="-1" aria-labelledby="doneModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="doneModal">この復習を完了しますか</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <a href="#" type="button" class="btn btn-primary" id="doneBtn">完了する</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
-  <%- include('modal'); %>
 </body>
 </html>

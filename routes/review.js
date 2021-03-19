@@ -11,29 +11,64 @@ const ensurer = require('./authentication-ensurer');
 router.get('/', ensurer.ensure, (req, res) => {
   const today = new Date();
   sequelize.query
-  ("SELECT * FROM review_contents JOIN study_contents ON review_contents.study_contents_id = study_contents.study_contents_id WHERE user_id = ? AND review_date = ?",
-  { replacements: [req.session.userId, today], type: sequelize.QueryTypes.SELECT }
+  ("SELECT * FROM review_contents JOIN study_contents ON review_contents.study_contents_id = study_contents.study_contents_id WHERE user_id = ?",
+  // AND review_date = ? today
+  { replacements: [req.session.userId ], type: sequelize.QueryTypes.SELECT }
   ).then(reviewContents => {
     console.log(reviewContents);
     res.render('review-contents', {reviewContents: reviewContents});
   });
 });
 
-router.post('/study/:userId/:studyContentsId/review/:reviewContentsId', ensurer.ensure,
+router.get('/:user_id/:review_contents_id', ensurer.ensure,
   //sessionIdとコンテンツのuserIdが同一か確認
   (req, res, next) => {
-    const userId = req.params.userId;
-    if (userId === req.session.userId){
+    const user_id = req.params.user_id;
+    console.log(user_id)
+    console.log(req.session.userId)
+    if (user_id == req.session.userId){
       next();
     } else {
-      const err = new Error('userIdが一致しません');
+      const err = new Error('user_idが一致しません');
       err.status = 404;
       next(err);
     }
   },
   (req, res, next) => {
-    
+    const review_contents_id = req.params.review_contents_id;
+    ReviewContent.findOne({
+      where: {review_contents_id: review_contents_id}
+    }).then((reviewContent) => {
+      const review_date = culReviewDate(reviewContent.number_of);
+      ReviewContent.update({
+        review_date: review_date,
+        number_of: reviewContent.number_of + 1
+      },{
+        where: {
+          review_contents_id: reviewContent.review_contents_id
+        }
+      })
+      res.redirect('/review');
+    });
   }
 );
+
+function culReviewDate (numberOf) {
+  let reviewDate = new Date();
+  switch (numberOf) {
+    case 0:
+      reviewDate.setDate( reviewDate.getDate() + 1 );
+      break;
+    case 1:
+      reviewDate.setDate( reviewDate.getDate() + 7 );
+      break;
+    case 2:
+      reviewDate.setDate( reviewDate.getDate() + 14 );
+      break;
+    case 3:
+      reviewDate.setMonth( reviewDate.getMonth() + 1 );
+  }
+  return reviewDate;
+}
 
 module.exports = router;

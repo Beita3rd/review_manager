@@ -19,10 +19,10 @@ const ReviewContent = loader.database.define(
       type: Sequelize.INTEGER,
       allowNull: false
     },
-    is_done: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: false
-    },
+    // is_done: {
+    //   type: Sequelize.BOOLEAN,
+    //   defaultValue: false
+    // },
     study_contents_id: {
       type: Sequelize.INTEGER,
       allowNull: false

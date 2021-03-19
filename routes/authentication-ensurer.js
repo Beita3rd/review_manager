@@ -12,7 +12,7 @@ function ensureForLogin(req, res, next) {
   if (req.session.userId === undefined) {
     return next();
   }
-  res.redirect('/');
+  res.redirect('/review');
 }
 
 module.exports = {
