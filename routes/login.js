@@ -6,7 +6,7 @@ const ensurer = require('./authentication-ensurer');
 const bcrypt = require('bcrypt');
 
 router.get('/', ensurer.ensureForLogin, (req, res, next) => {
-  res.render('login');
+  res.render('login', {isWrong: false});
 });
 
 
@@ -15,8 +15,7 @@ router.post('/', ensurer.ensureForLogin, (req, res, next) => {
   const email = req.body.email;
   User.findOne({where: {email: email}}).then((user) => {
     if(user === null){
-      console.log('not found');
-      res.redirect('/login');
+      res.render('login', {isWrong: true});
     } else{
       const plain = req.body.password; //平文パスワード
       const hash = user.password; //データベースのパスワード
@@ -29,8 +28,7 @@ router.post('/', ensurer.ensureForLogin, (req, res, next) => {
           req.session.username = user.user_name;
           res.redirect('/review');
         } else{
-          console.log('パスワードが異なる');
-          res.redirect('/login');
+          res.render('login', {isWrong: true});
         }
       });
     }
