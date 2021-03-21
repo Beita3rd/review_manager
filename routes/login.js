@@ -12,8 +12,10 @@ router.get('/', ensurer.ensureForLogin, (req, res, next) => {
 
 router.post('/', ensurer.ensureForLogin, (req, res, next) => {
   //emailのチェック
-  const email = req.body.email;
-  User.findOne({where: {email: email}}).then((user) => {
+  // const email = req.body.email;
+  const name = req.body.name;
+
+  User.findOne({where: {user_name: name}}).then((user) => {
     if(user === null){
       res.render('login', {isWrong: true});
     } else{

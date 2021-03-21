@@ -13,15 +13,15 @@ router.post('/signup', ensurer.ensureForLogin,
   // 入力値のチェック
   (req, res, next) => {
     const name = req.body.name;
-    const email = req.body.email;
+    // const email = req.body.email;
     const password = req.body.password;
     const errors = [];
     if (name === '') {
       errors.push('名前が空です');
     }
-    if (email === '') {
-      errors.push('メールアドレスが空です');
-    }
+    // if (email === '') {
+    //   errors.push('メールアドレスが空です');
+    // }
     if (errors === '') {
       errors.push('パスワードが空です');
     }
@@ -35,9 +35,10 @@ router.post('/signup', ensurer.ensureForLogin,
   },
   //メールアドレスがすでに登録されているかのチェック
   (req, res, next) => {
-    const email = req.body.email;
+    // const email = req.body.email;
+    const name = req.body.name;
     
-    User.findOne({where: {email: email}}).then((user) => {
+    User.findOne({where: {user_name: name}}).then((user) => {
       if(user === null){
         next();
       } else{
@@ -48,13 +49,13 @@ router.post('/signup', ensurer.ensureForLogin,
   //データベースに登録
   (req, res) => {
     const name = req.body.name;
-    const email = req.body.email;
+    // const email = req.body.email;
     const password = req.body.password;
     //パスワードをハッシュ化
     bcrypt.hash(password, 10, (error, hash) => {
       User.create({
         user_name: name,
-        email: email,
+        // email: email,
         password: hash
       }).then((user) => {
         req.session.userId = user.user_id;
