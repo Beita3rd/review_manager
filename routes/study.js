@@ -6,17 +6,13 @@ const ReviewContent = require('../models/review-content');
 const ensurer = require('./authentication-ensurer');
 
 // 一覧表示
-// router.get('/', ensurer.ensure, (req, res) => {
-//   StudyContent.findAll({
-//     where: {user_id: req.session.userId},
-//     order: [['created_at', 'DESC']]}).then((studyContent) => {
-//       res.render('study-contents', {studyContent: studyContent});
-//   });
-// });
-
-// router.get('/new', ensurer.ensure, (req, res) => {
-//   res.render('new-study-contents');
-// });
+router.get('/', ensurer.ensure, (req, res) => {
+  StudyContent.findAll({
+    where: {user_id: req.session.userId},
+    order: [['created_at', 'DESC']]}).then((studyContent) => {
+      res.render('study-contents', {studyContent: studyContent});
+  });
+});
 
 
 // 勉強内容の保存
@@ -27,15 +23,15 @@ router.post('/new', ensurer.ensure,
     const studyDate = req.body.studyDate;
     const errors = [];
     if (studyContents === '') {
-      errors.push('ユーザー名が空です');
+      errors.push('勉強内容がからです');
     }
     if (studyDate === '') {
-      errors.push('メールアドレスが空です');
+      errors.push('日付が空です');
     }
     
     if (errors.length > 0) {
       console.log(errors);
-      res.redirect('/study/new');
+      res.redirect('/review');
     } else {
       next();
     }
@@ -57,6 +53,49 @@ router.post('/new', ensurer.ensure,
       }).then(() => {
         res.redirect('/review');
       })
+    });
+  }
+);
+
+// 勉強内容の編集
+router.post('/edit/:study_contents_id', ensurer.ensure,
+  (req, res, next) => {
+    const studyContents = req.body.studyContents;
+    const studyDate = req.body.studyDate;
+    const errors = [];
+    if (studyContents === '') {
+      errors.push('勉強内容がからです');
+    }
+    if (studyDate === '') {
+      errors.push('日付が空です');
+    }
+    
+    if (errors.length > 0) {
+      console.log(errors);
+      res.redirect('/study');
+    } else {
+      next();
+    }
+  },
+  (req, res, next) => {
+    const studyContents = req.body.studyContents;
+    const studyDate = req.body.studyDate;
+    StudyContent.update({
+      study_contents: studyContents,
+      created_at: studyDate
+    },{
+      where: {
+        study_contents_id: req.params.study_contents_id,
+        user_id: req.session.userId
+      }
+    }).then((studyContent) => {
+      if (studyContent.length > 0) {
+        res.redirect('/study');
+      } else {
+        const err = new Error('user_idが一致しません');
+        err.status = 404;
+        next(err);
+      }
     });
   }
 );

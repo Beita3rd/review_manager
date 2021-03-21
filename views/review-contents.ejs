@@ -10,14 +10,14 @@
     <!-- ジャンボトロン -->
     <div class="jumbotron my-3">
       <h1 class="display-4">復習の一覧</h1>
-      <p class="lead">ここに復習予定の一覧が表示されます。</p>
+      <p class="lead">ここに今日の復習一覧が表示されます。</p>
       <hr class="my-4">
       <p>新しく学んだ内容はこちらから登録できます</p>
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newStudyModal">勉強の登録</button>
     </div>
 
     <!-- 復習リスト -->
-    <table class="table table-hover">
+    <table class="table">
       <thead>
         <th scope="col">復習内容</th>
         <th scope="col">復習回数</th>
@@ -56,7 +56,7 @@
             <form method="post" action="/study/new">
               <div class="form-group">
                 <label for="studyContents" class="col-form-label">勉強内容:</label>
-                <input type="text" class="form-control" id="studyContents" name="studyContents">
+                <input type="text" class="form-control" id="studyContents" name="studyContents" required>
               </div>
               <div class="form-group">
                 <label for="studyDate" class="col-form-label">勉強日:</label>

@@ -11,9 +11,8 @@ const ensurer = require('./authentication-ensurer');
 router.get('/', ensurer.ensure, (req, res) => {
   const today = new Date();
   sequelize.query
-  ("SELECT * FROM review_contents JOIN study_contents ON review_contents.study_contents_id = study_contents.study_contents_id WHERE user_id = ?",
-  // AND review_date = ? today
-  { replacements: [req.session.userId ], type: sequelize.QueryTypes.SELECT }
+  ("SELECT * FROM review_contents JOIN study_contents ON review_contents.study_contents_id = study_contents.study_contents_id WHERE user_id = ? AND review_date <= ? ORDER BY review_date,number_of",
+  { replacements: [req.session.userId, today ], type: sequelize.QueryTypes.SELECT }
   ).then(reviewContents => {
     console.log(reviewContents);
     res.render('review-contents', {reviewContents: reviewContents});
@@ -24,8 +23,6 @@ router.get('/:user_id/:review_contents_id', ensurer.ensure,
   //sessionIdとコンテンツのuserIdが同一か確認
   (req, res, next) => {
     const user_id = req.params.user_id;
-    console.log(user_id)
-    console.log(req.session.userId)
     if (user_id == req.session.userId){
       next();
     } else {
@@ -65,7 +62,7 @@ function culReviewDate (numberOf) {
     case 2:
       reviewDate.setDate( reviewDate.getDate() + 14 );
       break;
-    case 3:
+    default:
       reviewDate.setMonth( reviewDate.getMonth() + 1 );
   }
   return reviewDate;

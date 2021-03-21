@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <%- include('head'); %>
+</head>
+<body>
+  <%- include('header'); %>
+  
+  <main class="container">
+    <div class="jumbotron my-3">
+      <h1 class="display-4">登録した勉強の一覧</h1>
+      <p class="lead">登録した勉強内容の編集ができます</p>
+    </div>
+
+    <table class="table">
+      <thead>
+        <th scope="col">勉強内容</th>
+        <th scope="col">勉強日</th>
+      </thead>
+      <tbody>
+      <% var hasContents = studyContent.length > 0 %>
+        <% if (hasContents) { %>
+          <% studyContent.forEach(content => { %>
+            <tr>
+              <td><%= content.study_contents %></td>
+              <td><%= content.created_at %></td>
+              <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-study_contents="<%= content.study_contents %>" data-study_contents_id="<%= content.study_contents_id %>" data-user_id="<%= content.user_id %>" data-created_at="<%= content.created_at %>">編集</button></td>
+            </tr>
+          <% }); %>
+        <% }; %>
+      </tbody>
+    </table>
+
+    <!-- 勉強内容編集モーダル -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModal" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModal">勉強内容の編集</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form method="post">
+              <div class="form-group">
+                <label for="studyContents" class="col-form-label">勉強内容:</label>
+                <input type="text" class="form-control" id="studyContents" name="studyContents" required>
+              </div>
+              <div class="form-group">
+                <label for="studyDate" class="col-form-label">勉強日:</label>
+                <input type="date" class="form-control" id="studyDate" name="studyDate" required>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

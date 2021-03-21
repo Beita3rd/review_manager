@@ -10,6 +10,29 @@ router.get('/signup', ensurer.ensureForLogin, (req, res) => {
 });
 
 router.post('/signup', ensurer.ensureForLogin,
+  // 入力値のチェック
+  (req, res, next) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    const errors = [];
+    if (name === '') {
+      errors.push('名前が空です');
+    }
+    if (email === '') {
+      errors.push('メールアドレスが空です');
+    }
+    if (errors === '') {
+      errors.push('パスワードが空です');
+    }
+    
+    if (errors.length > 0) {
+      console.log(errors);
+      res.redirect('/');
+    } else {
+      next();
+    }
+  },
   //メールアドレスがすでに登録されているかのチェック
   (req, res, next) => {
     const email = req.body.email;
