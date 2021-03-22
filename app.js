@@ -34,17 +34,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
-// var myStore = new SequelizeStore({
-//   db: sequelize,
-// });
+var myStore = new SequelizeStore({
+  db: sequelize,
+});
 app.use(session({ 
   secret: '2a149d2eef498259',
-  // store: myStore,
+  store: myStore,
   resave: false, 
   saveUninitialized: false,
-  cookie: { secure: true }
+  cookie: { secure: true },
+  proxy: true,
 }));
-// myStore.sync();
+myStore.sync();
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
