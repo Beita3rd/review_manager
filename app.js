@@ -18,6 +18,9 @@ var reviewRouter = require('./routes/review');
 //モデルの読み込み
 var loader = require('./models/sequelize-loader');
 var sequelize = loader.database;
+var myStore = new SequelizeStore({
+  db: sequelize,
+});
 sequelize.sync().then(() => {
   console.log('モデルの同期');
 });
@@ -44,9 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 app.use(session({ 
   secret: '2a149d2eef498259',
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
+  store: myStore,
   resave: false, 
   saveUninitialized: false,
   cookie: { secure: true }
