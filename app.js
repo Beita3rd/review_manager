@@ -18,20 +18,9 @@ var reviewRouter = require('./routes/review');
 //モデルの読み込み
 var loader = require('./models/sequelize-loader');
 var sequelize = loader.database;
-var myStore = new SequelizeStore({
-  db: sequelize,
-});
 sequelize.sync().then(() => {
   console.log('モデルの同期');
 });
-
-// var User = require('./models/user');
-// var StudyContent = require('./models/study-content');
-// var ReviewContent = require('./models/review-content');
-// User.sync().then(() => {
-//   StudyContent.sync();
-//   ReviewContent.sync();
-// });
 
 var app = express();
 
@@ -45,13 +34,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
+// var myStore = new SequelizeStore({
+//   db: sequelize,
+// });
 app.use(session({ 
   secret: '2a149d2eef498259',
-  store: myStore,
+  // store: myStore,
   resave: false, 
   saveUninitialized: false,
   cookie: { secure: true }
 }));
+// myStore.sync();
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
