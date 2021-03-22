@@ -13,7 +13,7 @@ var logoutRouter = require('./routes/logout');
 var studyRouter = require('./routes/study');
 var reviewRouter = require('./routes/review');
 
-モデルの読み込み
+//モデルの読み込み
 var loader = require('./models/sequelize-loader');
 var sequelize = loader.database;
 sequelize.sync().then(() => {
