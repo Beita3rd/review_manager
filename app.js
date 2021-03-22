@@ -20,9 +20,9 @@ var reviewRouter = require('./routes/review');
 //   console.log('モデルの同期');
 // });
 
-var User = require('../models/user');
-var StudyContent = require('../models/study-content');
-var ReviewContent = require('../models/review-content');
+var User = require('./models/user');
+var StudyContent = require('./models/study-content');
+var ReviewContent = require('./models/review-content');
 User.sync().then(() => {
   StudyContent.sync();
   ReviewContent.sync();
