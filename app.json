@@ -1,0 +1,7 @@
+{
+  "name": "review-manager",
+  "description": "復習管理",
+  "logo": "",
+  "keywords": ["node"],
+  "image": "heroku/nodejs"
+}

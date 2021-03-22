@@ -100,4 +100,39 @@ router.post('/edit/:study_contents_id', ensurer.ensure,
   }
 );
 
+// 勉強の削除
+router.get('/destroy/:study_contents_id', ensurer.ensure, 
+  (req, res, next) => {
+    const study_contents_id = req.params.study_contents_id;
+    StudyContent.findOne({
+      where: {study_contents_id: study_contents_id}
+    }).then((studyContent) => {
+      const user_id = studyContent.user_id;
+      if (user_id == req.session.userId){
+        next();
+      } else {
+        const err = new Error('user_idが一致しません');
+        err.status = 404;
+        next(err);
+      }
+    })
+  },
+  (req, res, next) => {
+    const study_contents_id = req.params.study_contents_id;
+    StudyContent.destroy({
+      where: {
+        study_contents_id: study_contents_id
+      }
+    }).then(() => {
+      StudyContent.destroy({
+        where: {
+          study_contents_id: study_contents_id
+        }
+      })
+    }).then(() => {
+      res.redirect('/study');
+    })
+  }
+);
+
 module.exports = router;

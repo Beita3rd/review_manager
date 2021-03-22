@@ -20,5 +20,17 @@ $(function(){
     modal.find('.modal-body form').attr("action", "/study/edit/"+study_contents_id)
     $('#studyContents').val(study_contents)
     $('#studyDate').attr("value", created_at)
+    $('#destroy').attr("data-study_contents_id", study_contents_id)
+    $('#destroy').attr("data-study_contents", study_contents)
+  })
+
+  $('#destroyModal').on('show.bs.modal', function (event) {
+    $('#editModal').modal('hide')
+    var button = $(event.relatedTarget) 
+    var study_contents = button.data('study_contents')
+    var study_contents_id = button.data('study_contents_id')
+    var modal = $(this)
+    modal.find('.modal-body').text(study_contents)
+    modal.find('.modal-footer a').attr("href", "/study/destroy/"+study_contents_id)
   })
 });

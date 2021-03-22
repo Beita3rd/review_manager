@@ -1,8 +1,8 @@
 'use strict';
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(
-  'postgres://postgres:postgres@localhost/review_manager'
-);
+  process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost/schedule_arranger'
+ );
 
 module.exports = {
   database: sequelize,
