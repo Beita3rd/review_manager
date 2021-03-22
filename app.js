@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -40,7 +42,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
-app.use(session({ secret: '2a149d2eef498259', resave: false, saveUninitialized: false }));
+app.use(session({ 
+  secret: '2a149d2eef498259',
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
+  resave: false, 
+  saveUninitialized: false,
+  cookie: { secure: true }
+}));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
