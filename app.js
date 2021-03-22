@@ -14,10 +14,18 @@ var studyRouter = require('./routes/study');
 var reviewRouter = require('./routes/review');
 
 // モデルの読み込み
-var loader = require('./models/sequelize-loader');
-var sequelize = loader.database;
-sequelize.sync().then(() => {
-  console.log('モデルの同期');
+// var loader = require('./models/sequelize-loader');
+// var sequelize = loader.database;
+// sequelize.sync().then(() => {
+//   console.log('モデルの同期');
+// });
+
+var User = require('../models/user');
+var StudyContent = require('../models/study-content');
+var ReviewContent = require('../models/review-content');
+User.sync().then(() => {
+  StudyContent.sync();
+  ReviewContent.sync();
 });
 
 var app = express();
